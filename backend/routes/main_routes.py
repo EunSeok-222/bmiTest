@@ -1,17 +1,16 @@
 from flask import Blueprint, render_template, request
-from backend.models.db import Database
 from backend.services.bmi import BMICalculator
-import atexit
-
 
 main_bp = Blueprint('main', __name__)
 
-db = Database()
-atexit.register(db.close)
+db = None
+
+def init_db(database_instance):
+    global db
+    db = database_instance
 
 @main_bp.route('/', methods=['GET'])
 def index():
-
     return render_template('index.html', active_page='index')
 
 
